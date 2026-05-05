@@ -11,10 +11,11 @@ public class PlayerController : MonoBehaviour
 
     // Components of the GameObject
     private Rigidbody rb;
+    private TruckExtensionsToPlayerCommunicator truckExtensionsCommunicator;
 
     // Adjustable parameters
-    public float moveSpeed = 10.0f;
-    public float turnSpeed = 10.0f;
+    public float baseMoveSpeed = 10.0f;
+    public float baseTurnSpeed = 10.0f;
 
     // Regarding movement functionality
     public Vector3 forward;
@@ -28,9 +29,14 @@ public class PlayerController : MonoBehaviour
 
         // Assigning components
         rb = this.GetComponent<Rigidbody>();
+        truckExtensionsCommunicator = this.GetComponentInChildren<TruckExtensionsToPlayerCommunicator>();
 
         // Normalizing directions
         forward = this.forward.normalized;
+
+        // Assigning adjustable parameters to their actual storage in playerStats struct, held by TruckExtensionsToPlayerCommuicator
+        truckExtensionsCommunicator.actualStats.moveSpeed = baseMoveSpeed;
+        truckExtensionsCommunicator.actualStats.turnSpeed = baseTurnSpeed;
     }
 
     // Update function
@@ -51,10 +57,10 @@ public class PlayerController : MonoBehaviour
 
         // Applies the player input to their direction of rotation
         Vector3 turnDirection = Vector3.zero;
-        turnDirection.y = moveInput.x * turnSpeed;
+        turnDirection.y = moveInput.x * truckExtensionsCommunicator.actualStats.turnSpeed;
 
         // Movement and rotation actually applied to player
-        this.rb.AddForce(moveDirection * moveSpeed * moveMultiplier * Time.deltaTime, ForceMode.Force);
+        this.rb.AddForce(moveDirection * truckExtensionsCommunicator.actualStats.moveSpeed * moveMultiplier * Time.deltaTime, ForceMode.Force);
         this.transform.Rotate(turnDirection, Space.Self);
 
         // Changes forward to whatever current forward is

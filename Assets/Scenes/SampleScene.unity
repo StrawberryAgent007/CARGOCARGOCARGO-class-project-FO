@@ -777,8 +777,8 @@ Transform:
   m_GameObject: {fileID: 616416102}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.066, y: -0.41200006, z: 2.054}
-  m_LocalScale: {x: 1.3501, y: 1.1971189, z: 0.44079143}
+  m_LocalPosition: {x: -0, y: -0.41200006, z: 2.054}
+  m_LocalScale: {x: 1.7514848, y: 1.1971189, z: 0.44079143}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1454083154}
@@ -873,7 +873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78639623cff48cb4d8b1c95b6088d14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TruckExtensionArmoredFront
-  ramForce: 10
+  ramForce: 5
 --- !u!54 &616416108
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1739,6 +1739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 526c6ce92b1acbe459426063cf6bbcd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TruckExtensionsCoordinator
+  truck: {fileID: 1811607182}
 --- !u!1 &1490096273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1953,7 +1954,7 @@ GameObject:
   - component: {fileID: 2010657001}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Armored Front Vulnerable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2004,8 +2005,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.51858383
+  m_Center: {x: 0.003155263, y: 0, z: 0}
 --- !u!23 &2010657003
 MeshRenderer:
   m_ObjectHideFlags: 0

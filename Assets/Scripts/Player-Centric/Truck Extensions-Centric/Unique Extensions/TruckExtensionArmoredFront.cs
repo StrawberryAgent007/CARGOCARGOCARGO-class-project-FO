@@ -7,14 +7,18 @@ public class TruckExtensionArmoredFront : TruckExtension
 {
     public override TruckExtensionsCoordinator.Extension thisTruckExtension => TruckExtensionsCoordinator.Extension.ArmoredFrontExtension;
 
-    // Adjustable parameteres
+    // Adjustable parameters
     public float ramForce = 50.0f; // The force with which a rammed object is hit
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Armored Front Vulnerable"))
+        if (this.thisExtensionActive)
         {
-            collision.gameObject.GetComponent<Rigidbody>().AddForce(this.thisTruckRb.linearVelocity * ramForce, ForceMode.Impulse);
+            // Propels object forward if it is compatible with Armored Front Vulnerable
+            if (collision.gameObject.CompareTag("Armored Front Vulnerable"))
+            {
+                collision.gameObject.GetComponent<Rigidbody>().AddForce(this.thisTruckRb.linearVelocity * ramForce, ForceMode.Impulse); // Flings object using AddForce
+            }
         }
     }
 }

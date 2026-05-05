@@ -7,18 +7,22 @@ public abstract class TruckExtension : MonoBehaviour
     public abstract TruckExtensionsCoordinator.Extension thisTruckExtension { get; } // Holds the specific extension of the respective TruckExtension as an enum
 
     protected TruckExtensionsCoordinator coordinator = null; // Essentially functions as the context
+    protected TruckExtensionsToPlayerCommunicator communicator = null; // Functions as the mediator between player controller for transmitting updates to player stats or state
 
+    // Probably need to get rid of these two and assign them to the communicator
     protected GameObject thisTruck = null; // Holds the truck as a GameObject
     protected Rigidbody thisTruckRb = null; // Holds the truck as a Rigidbody
 
-    private bool thisExtensionActive = false; // Flags whether this extension is currently active or not
+    protected bool thisExtensionActive = false; // Flags whether this extension is currently active or not
 
     // Initializes the TruckExtension by assigning the coordinator, along with relevant aspects of the truck
-    public void Initialize(TruckExtensionsCoordinator setCoordinator)
+    public void Initialize(TruckExtensionsCoordinator setCoordinator, TruckExtensionsToPlayerCommunicator setCommunicator, GameObject setTruck)
     {
         this.coordinator = setCoordinator;
-        this.thisTruck = this.gameObject;
-        this.thisTruckRb = this.gameObject.GetComponent<Rigidbody>();
+        this.communicator = setCommunicator;
+
+        this.thisTruck = setTruck;
+        this.thisTruckRb = setTruck.GetComponent<Rigidbody>();
     }
 
     // Enables the extension by setting the active flag to true
