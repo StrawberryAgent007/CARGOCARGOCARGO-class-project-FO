@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -8,12 +9,16 @@ public class PlayerController : MonoBehaviour
     // InputAction declaration(s)
     public InputAction moveAction;
 
+    // Components of the GameObject
+    private Rigidbody rb;
+
     // Adjustable parameters
     public float moveSpeed = 10.0f;
     public float turnSpeed = 10.0f;
 
     // Regarding movement functionality
     public Vector3 forward;
+    private float moveMultiplier = 250.0f; // Mulitiples movement value by a set amount to bring speed up to a level that'll affect truck
 
     // Start function
     void Start()
@@ -21,12 +26,15 @@ public class PlayerController : MonoBehaviour
         // Assigning InputActions
         this.moveAction = InputSystem.actions.FindAction("Move");
 
+        // Assigning components
+        rb = this.GetComponent<Rigidbody>();
+
         // Normalizing directions
         forward = this.forward.normalized;
     }
 
     // Update function
-    void Update()
+    void FixedUpdate()
     {
         executeMovement();
     }
@@ -40,13 +48,13 @@ public class PlayerController : MonoBehaviour
         // Applies the player input to their direction of movement
         Vector3 moveDirection = Vector3.zero;
         moveDirection += this.forward * moveInput.y;
-        
+
         // Applies the player input to their direction of rotation
         Vector3 turnDirection = Vector3.zero;
         turnDirection.y = moveInput.x * turnSpeed;
 
         // Movement and rotation actually applied to player
-        this.transform.position += moveDirection * moveSpeed * Time.deltaTime;
+        this.rb.AddForce(moveDirection * moveSpeed * moveMultiplier * Time.deltaTime, ForceMode.Force);
         this.transform.Rotate(turnDirection, Space.Self);
 
         // Changes forward to whatever current forward is
