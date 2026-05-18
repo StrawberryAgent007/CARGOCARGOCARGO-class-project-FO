@@ -38,9 +38,17 @@ public class TruckExtensionsCoordinator : MonoBehaviour
             grabbedExtension.Initialize(this, truckExtensionsCommunicator, truck); // Initializes the extension, passing in this coordinator, communicator, and truck object
 
             // By default, disables the extensions
-            //disableExtension(grabbedExtension.thisTruckExtension);
-            enableExtension(grabbedExtension.thisTruckExtension);// This is temporary - only implemented so that every extension can be tested
+            disableExtension(grabbedExtension.thisTruckExtension);
         }
+
+        // NOTE: This needs to be called after grabbing, setting up, and disabling the extensions as seen above, since this function call also enables the player's extension selections (which can't be done without setting them up first)
+        GameWizard.instanceFetch.setAsTruckExtensionsCoordinator(this); // Sets this as the truckExtensionsCoordinator reference for the GameWizard
+    }
+
+    // Utilizing a list of active extensions, this function walks through and enables every extension on the list
+    public void enableSelectedExtensions(List<Extension> selectedExtensions)
+    {
+        foreach (Extension extension in selectedExtensions) { enableExtension(extension); } // Calls enableExtension on each specified extension
     }
 
     public void enableExtension(Extension enabledExtension)

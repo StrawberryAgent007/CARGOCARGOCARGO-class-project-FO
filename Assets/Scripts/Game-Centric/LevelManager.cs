@@ -27,12 +27,10 @@ public class LevelManager : MonoBehaviour, IObserver
     {
         if (eventType == "PlayerCrossedStartLine")
         {
-            print("Starto!");//
             startLevelProcedures();
         }
         else if (eventType == "PlayerCrossedFinishLine")
         {
-            print("Endo!");//
             endLevelProcedures();
         }
     }
@@ -40,12 +38,14 @@ public class LevelManager : MonoBehaviour, IObserver
     // Performs all relevant start-level procedures
     private void startLevelProcedures()
     {
+        Debug.Log("Level start!"); // Temporary messsage indicating that level has begun
         timerForThisLevel.StartTimer(); // Begins level timer
     }
 
     // Performs all relevant end-level procedures
     private void endLevelProcedures()
     {
-
+        Debug.Log("Level end!"); // Temporary message indicating that level has ended
+        float remainingTime = timerForThisLevel.TimeHasEnded(); // Ends timer and returns time left remaining
     }
 }

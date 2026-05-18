@@ -6,6 +6,7 @@ using UnityEngine;
 public class TruckExtensionArmoredFront : TruckExtension
 {
     public override TruckExtensionsCoordinator.Extension thisTruckExtension => TruckExtensionsCoordinator.Extension.ArmoredFrontExtension;
+    public override float pointCost => 35.0f;
 
     // Adjustable parameters
     public float ramForce = 50.0f; // The force with which a rammed object is hit

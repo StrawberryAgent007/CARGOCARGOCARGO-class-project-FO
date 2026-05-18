@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class TruckExtension : MonoBehaviour
 {
     public abstract TruckExtensionsCoordinator.Extension thisTruckExtension { get; } // Holds the specific extension of the respective TruckExtension as an enum
+    public abstract float pointCost { get; } // Holds the point reduction for each individual Truck Extension
 
     protected TruckExtensionsCoordinator coordinator = null; // Essentially functions as the context
     protected TruckExtensionsToPlayerCommunicator communicator = null; // Functions as the mediator between player controller for transmitting updates to player stats or state
