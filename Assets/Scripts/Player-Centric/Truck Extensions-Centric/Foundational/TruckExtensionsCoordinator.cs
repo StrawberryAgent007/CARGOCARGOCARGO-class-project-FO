@@ -45,6 +45,9 @@ public class TruckExtensionsCoordinator : MonoBehaviour
         GameWizard.instanceFetch.setAsTruckExtensionsCoordinator(this); // Sets this as the truckExtensionsCoordinator reference for the GameWizard
     }
 
+    // Allows outside scripts to get a reference to a Truck Extension component by using that Extension's associated enum
+    public TruckExtension retrieveExtensionComponent(TruckExtensionsCoordinator.Extension neededExtension) { return allExtensions[neededExtension]; }
+
     // Utilizing a list of active extensions, this function walks through and enables every extension on the list
     public void enableSelectedExtensions(List<Extension> selectedExtensions)
     {

@@ -13,7 +13,17 @@ public class GameWizard : MonoBehaviour
     private TruckExtensionsCoordinator truckExtensionsCoordinator;
     private TruckExtensionSelection truckExtensionSelection;
 
-    private string levelSelected;
+    // enum for level designators
+    public enum levelDesig
+    {
+        debuglvl,
+        lvl1,
+        lvl2,
+        lvl3
+    }
+
+    // NOTE: The level the player chooses is stored as an enum because when previously attempting to store it as a string, that string would strangely become null upon changing scenes
+    private levelDesig levelSelected;
 
     public static GameWizard instanceFetch
     {
@@ -53,19 +63,48 @@ public class GameWizard : MonoBehaviour
         truckExtensionsCoordinator.enableSelectedExtensions(truckExtensionSelection.ReturnSelectedExtensions());
     }
 
-    public void linkUpDoneButton(Button doneButton)
-    {
-        doneButton.onClick.AddListener(ChangeSceneIntoLevel); // Adds the ChangeSceneIntoLevel function call to the done button manually
-    }
+    // Function to add the ChangeSceneIntoLevel func to Truck Extension Selection Menu's Done Button
+    public void linkUpDoneButton(Button doneButton) { doneButton.onClick.AddListener(ChangeSceneIntoLevel); } // Adds the ChangeSceneIntoLevel function call to the done button manually
+
+    // Function to hook Truck Extension Coordinator + Selection up to ScoreCalculator
+    public void linkUpScoreCalculator(ScoreCalculator scoreCalculator) { scoreCalculator.setTruckExtensionSelection(truckExtensionSelection); scoreCalculator.setTruckExtensionsCoordinator(truckExtensionsCoordinator); } // Sets Truck Extensions Coordinator + Selection for scoreCalculator
+    
+    // Function to hook up Truck Extension Selection to TruckExtensionsToPlayerCommunicator
+    public void linkUpTruckExtensionsToPlayerCommunicator(TruckExtensionsToPlayerCommunicator truckExtensionsToPlayerCommunicator) { }
 
     // Sets the level that the player selected, saving it in the Game Wizard
-    public void LevelSelected(string setLevel) { levelSelected = setLevel; }
+    // NOTE: As stated previously, the reason why the selected level is stored in an enum instead of just a string is because strings strangely go null upon changing scene. This func accepts a string solely
+    // so it can be called by a button (I would like to have this func's argument be the levelDesig enum, but you can't use those kinds of functions from a button)
+    public void LevelSelected(string setLevel)
+    {
+        if (setLevel == "Debug Level") { levelSelected = levelDesig.debuglvl; }
+        else if (setLevel == "Level 1") { levelSelected = levelDesig.lvl1; }
+        else if (setLevel == "Level 2") { levelSelected = levelDesig.lvl2; }
+        else if (setLevel == "Level 3") { levelSelected = levelDesig.lvl3; }
+    }
 
     // NOTE: The reason why the two below functions are separate instead of just one with an if statement branching off into loading the specified scene or the previously selected level is because of the
     // linkUpDoneButton() function up above. You can't add a listener to a button that needs an argument through code (to my knowledge), hence the need for a ChangeSceneIntoLevel function that doesn't require
     // an argument at all
     // Chagnes scene to previously selected level
-    public void ChangeSceneIntoLevel() { SceneManager.LoadScene(levelSelected); }
+    public void ChangeSceneIntoLevel() 
+    { 
+        switch (levelSelected)
+        {
+            case levelDesig.debuglvl:
+                SceneManager.LoadScene("Debug Level");
+                break;
+            case levelDesig.lvl1:
+                SceneManager.LoadScene("Level 1");
+                break;
+            case levelDesig.lvl2:
+                SceneManager.LoadScene("Level 2");
+                break;
+            case levelDesig.lvl3:
+                SceneManager.LoadScene("Level 3");
+                break;
+        }
+    }
     // Changes scene into specified scene
     public void ChangeSceneToSpecified(string sceneToChangeInto) { SceneManager.LoadScene(sceneToChangeInto); }
 }

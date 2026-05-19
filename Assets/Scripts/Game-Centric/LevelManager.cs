@@ -7,8 +7,9 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour, IObserver
 {
-    public StartOrFinishLine thisLevelStartPoint = null; // Holds the Start Road for this level
-    public StartOrFinishLine thisLevelEndPoint = null; // Holds the Finish Road for this level
+    public StartOrFinishLine thisLevelStartPoint = null; // Holds the Start Line for this level
+    public StartOrFinishLine thisLevelEndPoint = null; // Holds the Finish Line for this level
+    private ScoreCalculator thisLevelScoreCalc = null;
 
     public TextMeshProUGUI UITimer = null; // The UI element that'll display the time
     private LevelTimer timerForThisLevel = null; // Creates a var for a new LevelTimer attributed to this level specifically
@@ -19,8 +20,11 @@ public class LevelManager : MonoBehaviour, IObserver
         timerForThisLevel.setTimerLength(100.0f); // Setting length of timer for level timer
         timerForThisLevel.setUIElement(UITimer); // Setting UI element for level timer
 
-        thisLevelStartPoint.Subscribe("PlayerCrossedStartLine", this);
-        thisLevelEndPoint.Subscribe("PlayerCrossedFinishLine", this);
+        this.thisLevelScoreCalc = this.gameObject.GetComponentInChildren<ScoreCalculator>(); // Assigns child ScoreCalculator object as script's ScoreCalculator reference
+        Debug.Log(thisLevelScoreCalc);
+
+        thisLevelStartPoint.Subscribe("PlayerCrossedStartLine", this); // Subscribes to signal for player crossing level's starting line
+        thisLevelEndPoint.Subscribe("PlayerCrossedFinishLine", this); // Subscribes to signal for player crossing level's finish line
     }
 
     public void Notify(string eventType, object argument)
@@ -47,5 +51,8 @@ public class LevelManager : MonoBehaviour, IObserver
     {
         Debug.Log("Level end!"); // Temporary message indicating that level has ended
         float remainingTime = timerForThisLevel.TimeHasEnded(); // Ends timer and returns time left remaining
+        float finalScore = thisLevelScoreCalc.CalculateScore(remainingTime); // Calculates the final score, using the Score Calculator
+
+        Debug.Log("Final Score: " + finalScore); // Temporary messsage manually outputting player's final score
     }
 }
